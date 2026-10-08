@@ -11,6 +11,30 @@ export const Route = createFileRoute("/changelog")({
 
 const releases = [
   {
+    version: "0.2.3",
+    date: "October 8, 2026",
+    dateTime: "2026-10-08",
+    headline: "Make your Polsimmer instance your own.",
+    summary: "Instance-specific settings and easier setup for new communities.",
+    highlights: [
+      {
+        title: "Configure your own instance",
+        detail:
+          "Instance-specific branding and settings are now separated from the core game, making it easier to run your own Polsimmer instance for your own community.",
+      },
+      {
+        title: "A faster, cleaner developer setup",
+        detail:
+          "The project now uses Bun for package management, scripts, and tests, with Oxlint for linting and Oxfmt for formatting.",
+      },
+      {
+        title: "Smoother deployments",
+        detail:
+          "Deployments are automated with a production approval step, and the footer shows the build’s commit for easier troubleshooting.",
+      },
+    ],
+  },
+  {
     version: "0.2.2",
     date: "October 1, 2026",
     dateTime: "2026-10-01",
