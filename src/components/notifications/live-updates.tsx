@@ -1,9 +1,10 @@
+import { instance } from "@/lib/instance-config";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth-context";
 
-export const socialChangeEvent = "oscana:social-change";
+export const socialChangeEvent = `${instance.id}:social-change`;
 
 export function LiveUpdates() {
   const { user, sessionReady } = useAuth();

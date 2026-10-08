@@ -1,0 +1,13 @@
+{
+  "id": "dev",
+  "name": "Dev",
+  "nationName": "Oscana (Dev)",
+  "description": "Dev sandbox.",
+  "domain": "https://dev.oscana.nya.je",
+  "locale": "en-US",
+  "timeZone": "UTC",
+  "branding": {
+    "logo": "/logo.png",
+    "icon": "/favicon.ico"
+  }
+}

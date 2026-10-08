@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 export function mentionPushPayload({
   sourceType,
   sourceId,
@@ -14,8 +15,8 @@ export function mentionPushPayload({
   kind?: "mention" | "comment";
 }) {
   return JSON.stringify({
-    title: kind === "comment" ? "Z.com comment" : "Oscana mention",
-    body: preview ? content.slice(0, 100) : kind === "comment" ? "Someone commented on your Z.com post." : "You have a new mention on Z.com.",
+     title: kind === "comment" ? `${instance.branding.socialName} comment` : `${instance.name} mention`,
+     body: preview ? content.slice(0, 100) : kind === "comment" ? `Someone commented on your ${instance.branding.socialName} post.` : `You have a new mention on ${instance.branding.socialName}.`,
     url: `/dashboard/social?postId=${postId}${sourceType === "comment" ? `&commentId=${sourceId}` : ""}`,
     tag: `mention:${sourceType}:${sourceId}`,
   });

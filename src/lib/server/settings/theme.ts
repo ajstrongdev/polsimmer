@@ -2,6 +2,20 @@ import { createServerFn } from "@tanstack/react-start";
 import { getCookie, setCookie } from "@tanstack/react-start/server";
 import { defineThemes } from "@ajstrongdev/start-themes";
 import { selectedColorSchemeCookie } from "@/lib/color-schemes";
+import { instance } from "@/lib/instance-config";
+
+const themeLabels = {
+  "Default (Light)": "light",
+  "Default (Dark)": "dark",
+  Dracula: "dracula",
+  "Rosé Pine": "rose-pine",
+  Catppuccin: "catppuccin-dark",
+  Nord: "nord",
+  "Solarized (Light)": "solarized-light",
+  Solarized: "solarized",
+} as const;
+const builtInThemes = ["light", "dark", "dracula", "rose-pine", "catppuccin-dark", "t3", "nord", "solarized-light", "solarized"] as const;
+export type ThemeId = (typeof builtInThemes)[number];
 
 export const themeConfig = defineThemes({
   themes: [
@@ -60,16 +74,17 @@ export const themeConfig = defineThemes({
       swatch: "oklch(0.62 0.1 230)",
     },
   ],
-  defaultTheme: "dark",
+  defaultTheme:
+    themeLabels[instance.theme.default as keyof typeof themeLabels] ??
+    (instance.theme.default as ThemeId),
   cookieKey: "_preferred-theme",
 });
 
 export const { themes } = themeConfig;
-export type ThemeId = (typeof themeConfig)["themeIds"][number];
-
-export const getThemeServerFn = createServerFn().handler(() =>
-  themeConfig.resolveTheme(getCookie(themeConfig.cookieKey)),
-);
+export const getThemeServerFn = createServerFn().handler(() => {
+  const saved = getCookie(themeConfig.cookieKey);
+  return { theme: themeConfig.resolveTheme(saved), hasPreference: Boolean(saved) };
+});
 
 export const setThemeServerFn = createServerFn({ method: "POST" })
   .inputValidator(themeConfig.validateTheme)
@@ -79,5 +94,10 @@ export const setThemeServerFn = createServerFn({ method: "POST" })
       maxAge: themeConfig.cookieMaxAge,
     });
   });
+
+export const resetThemeServerFn = createServerFn({ method: "POST" }).handler(() => {
+  setCookie(themeConfig.cookieKey, "", { maxAge: 0, path: "/" });
+  setCookie(selectedColorSchemeCookie, "", { maxAge: 0, path: "/" });
+});
 
 export const getThemeClasses = themeConfig.getClasses;

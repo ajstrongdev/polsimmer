@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -133,7 +134,7 @@ function PartyArticle() {
           <EntityReferenceText
             content={
               party.bio ||
-              `${party.name} is documented in the Oscana political record.`
+               `${party.name} is documented in the ${instance.name} political record.`
             }
           />
         }

@@ -1,0 +1,29 @@
+[
+  {
+    "email": "ajstrongdev@pm.me",
+    "username": "AJ",
+    "role": "Senator",
+    "is_active": true,
+    "last_activity": 0,
+    "moderation_role": "admin",
+    "is_ancestry_root": true
+  },
+  {
+    "email": "georgiewdavy@outlook.com",
+    "username": "G",
+    "role": "Representative",
+    "is_active": true,
+    "last_activity": 0,
+    "moderation_role": "admin",
+    "is_ancestry_root": true
+  },
+  {
+    "email": "jenewland1999@gmail.com",
+    "username": "jenewland1999",
+    "role": "President",
+    "is_active": true,
+    "last_activity": 0,
+    "moderation_role": "admin",
+    "is_ancestry_root": true
+  }
+]

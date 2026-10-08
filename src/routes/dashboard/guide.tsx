@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -20,7 +21,7 @@ export const Route = createFileRoute("/dashboard/guide")({
 const firstSteps = [
   {
     title: "Make your player yours",
-    text: "Open account settings to choose a username, write a short bio, set your pronouns, and build an avatar. Other players will see this around Oscana.",
+    text: `Open account settings to choose a username, write a short bio, set your pronouns, and build an avatar. Other players will see this around ${instance.name}.`,
   },
   {
     title: "Find your place in politics",
@@ -36,7 +37,7 @@ const legislationSteps = [
   "Read the bill and check its current stage before you act.",
   "When a vote is open in your chamber, open the bill desk from the Bills page and cast your vote.",
   "If you are serving on the Senate Committee, review the bill's likely effects on the nation and submit your assessment when asked.",
-  "Discuss the proposal on its bill page. Comments support Markdown and references, and also appear on Z.com.",
+  `Discuss the proposal on its bill page. Comments support Markdown and references, and also appear on ${instance.branding.socialName}.`,
 ];
 
 function PlayerGuide() {
@@ -44,8 +45,8 @@ function PlayerGuide() {
     <WikiPage>
       <WikiHeader
         eyebrow="A guide for players"
-        title="Your first days in Oscana"
-        description="Oscana is a shared political world. Players organise, campaign, debate proposals, and help shape the country together. You do not need to learn everything at once. Start with what interests you and follow the live stages as they change."
+        title={`Your first days in ${instance.name}`}
+        description={`${instance.name} is a shared political world. Players organise, campaign, debate proposals, and help shape the country together. You do not need to learn everything at once. Start with what interests you and follow the live stages as they change.`}
       />
 
       <WikiSection
@@ -229,7 +230,7 @@ function PlayerGuide() {
               before a chamber closes; a final vote against an enforced party
               line ejects you at stage close. Voting choices remain hidden until
               each stage concludes. The Social Media Officer manages the party's
-              Z.com account. A member can launch one leadership bid at a time;
+               {instance.branding.socialName} account. A member can launch one leadership bid at a time;
               if current members equal to at least half the party membership at
               launch support it, the challenger immediately becomes leader.
             </p>
@@ -278,19 +279,19 @@ function PlayerGuide() {
 
         <WikiSection
           className="flex h-full flex-col [&>.wiki-section-content]:flex-1"
-          title="Z.com and the national record"
+           title={`${instance.branding.socialName} and the national record`}
           icon={MessageSquareText}
           description="Follow the conversation, then check the public pages for the details behind it."
         >
           <div className="space-y-4 text-sm leading-6">
             <p>
-              Z.com is Oscana's public square. Share short posts, reply to
+               {instance.branding.socialName} is {instance.name}'s public square. Share short posts, reply to
               players, and discuss bills by attaching one to a post. Bill
-              discussions appear on both the bill page and Z.com. Markdown and
+               discussions appear on both the bill page and {instance.branding.socialName}. Markdown and
               linked references help make longer ideas easier to follow.
             </p>
             <GuideLink to="/social" icon={MessageSquareText}>
-              Visit Z.com
+               {`Visit ${instance.branding.socialName}`}
             </GuideLink>
           </div>
         </WikiSection>

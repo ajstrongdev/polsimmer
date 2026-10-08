@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Crown, FileText, UserPlus, Vote } from "lucide-react";
@@ -145,7 +146,7 @@ function PlayerArticle() {
               }
             >
               <EntityReferenceText
-                content={player.bio || "A player in Oscana."}
+                 content={player.bio || `A player in ${instance.name}.`}
               />
             </span>
             {(player.bio?.length ?? 0) > 180 && (
@@ -174,7 +175,7 @@ function PlayerArticle() {
                 }
               }}>
                 {!following && <UserPlus className="size-4" />}
-                {following ? "Following" : "Follow on Z.com"}
+                {following ? "Following" : `Follow on ${instance.branding.socialName}`}
               </Button>
             )}
             <Badge

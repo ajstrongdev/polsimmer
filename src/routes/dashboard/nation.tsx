@@ -28,6 +28,7 @@ import {
   WikiSection,
 } from "@/components/wiki/wiki-layout";
 import { formatPolicyValue } from "@/lib/nation/catalog";
+import { instance } from "@/lib/instance-config";
 import { getNationOverview } from "@/lib/server/nation/nation";
 
 export const Route = createFileRoute("/dashboard/nation")({
@@ -75,7 +76,7 @@ function NationOverview() {
     <WikiPage>
       <WikiHeader
         eyebrow="The nation today"
-        title={data.nation.name}
+        title={instance.nationName}
         description="See the laws that define daily life, the condition of the country, and how legislation is changing both."
         status={
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400">

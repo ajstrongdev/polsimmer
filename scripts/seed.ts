@@ -13,6 +13,8 @@ import { seedAjAvatar } from "./seed-aj-avatar";
 
 loadEnvFile();
 
+const { instance } = await import("../src/lib/instance-config");
+
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is required");
 }
@@ -354,7 +356,7 @@ async function seed() {
       ["name", "civil_rights", "economy", "political_freedoms"],
       [
         [
-          "The Republic of Oscana",
+          instance.nationName,
           initialHeadlines.civil_rights,
           initialHeadlines.economy,
           initialHeadlines.political_freedoms,

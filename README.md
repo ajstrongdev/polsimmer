@@ -1,5 +1,7 @@
 # Oscana
 
+For other Polsimmer deployments, see [instance configuration](docs/INSTANCE_CONFIGURATION.md). Oscana remains the default profile.
+
 Oscana is a TanStack Start game application with PostgreSQL and Firebase Authentication. This branch (`revival`) is an unfinished rewrite of the `develop` version. See [the rewrite notes](docs/REVIVAL_OVERVIEW.md) for the main product changes and known gaps.
 
 ## Local development

@@ -1,0 +1,41 @@
+{
+  "id": "my-nation",
+  "name": "My Nation",
+  "nationName": "The Republic of Example",
+  "description": "A player-led political world where parties compete, laws are debated, and every election can change the nation's direction.",
+  "domain": "https://example.org",
+  "locale": "en-US",
+  "timeZone": "UTC",
+  "branding": {
+    "logo": "/logo.png",
+    "icon": "/favicon.ico",
+    "socialName": "Public Square"
+  },
+  "social": {
+    "community": "https://discord.gg/your-invite-code"
+  },
+  "terminology": {
+    "president": "President",
+    "senate": "Senate",
+    "house": "House",
+    "party": "Party"
+  },
+  "features": {
+    "social": true,
+    "browserNotifications": true
+  },
+  "theme": {
+    "default": "Default (Dark)",
+    "colors": {
+      "mode": "dark",
+      "background": "#000000",
+      "foreground": "#f9fafb",
+      "primary": "#60a5fa",
+      "accent": "#34d399"
+    }
+  },
+  "game": {
+    "billAdvanceScheduleUtc": "0 4,12,20 * * *",
+    "gameAdvanceScheduleUtc": "0 20 * * *"
+  }
+}

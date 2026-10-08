@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { and, eq, gt, inArray, isNotNull, like, not, sql } from "drizzle-orm";
 import { db } from "@/db";
 import {
@@ -229,7 +230,7 @@ export async function getPendingNextMoves(
       ? [
           {
             key: `party:${player.partyId}:social`,
-            title: `Manage ${player.partyName}'s Z.com presence`,
+            title: `Manage ${player.partyName}'s ${instance.branding.socialName} presence`,
             url: "/dashboard/social",
           },
         ]
@@ -261,7 +262,7 @@ export async function getPendingNextMoves(
       ? [
           {
             key: "party:explore",
-            title: "Find your place in Oscana",
+             title: `Find your place in ${instance.name}`,
             url: "/dashboard/parties",
           },
         ]

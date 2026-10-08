@@ -1,5 +1,6 @@
 import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
+import { instance } from "./lib/instance-config";
 
 export const env = createEnv({
   server: {
@@ -42,8 +43,8 @@ export const env = createEnv({
     CLOUD_TASKS_LOCATION: z.string().optional().default(""),
     ELECTION_TASK_QUEUE: z.string().optional().default(""),
     ELECTION_TASK_SERVICE_ACCOUNT: z.string().optional().default(""),
-    BILL_ADVANCE_SCHEDULE_UTC: z.string().optional().default("0 4,12,20 * * *"),
-    GAME_ADVANCE_SCHEDULE_UTC: z.string().optional().default("0 20 * * *"),
+    BILL_ADVANCE_SCHEDULE_UTC: z.string().optional().default(instance.game.billAdvanceScheduleUtc),
+    GAME_ADVANCE_SCHEDULE_UTC: z.string().optional().default(instance.game.gameAdvanceScheduleUtc),
     ELECTION_TIME_MULTIPLIER: z.coerce.number().positive().default(1),
     DEPLOYED_ENV: z.string().optional().default("local"),
   },

@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Link, useRouter } from "@tanstack/react-router";
 import { ArrowRight, Search } from "lucide-react";
@@ -26,8 +27,8 @@ const commands = [
   {
     to: "/dashboard",
     command: "post",
-    label: "Create a Z.com post",
-    description: "Share an update with Oscana",
+     label: `Create a ${instance.branding.socialName} post`,
+    description: `Share an update with ${instance.name}`,
     group: "Create",
     keywords: "social publish message",
   },
@@ -71,7 +72,7 @@ const destinations = [
   },
   {
     to: "/dashboard/social",
-    label: "Z.com",
+     label: instance.branding.socialName,
     description: "Posts and conversations",
     group: "Community",
     keywords: "social post reply discussion",
@@ -86,7 +87,7 @@ const destinations = [
   {
     to: "/dashboard/nation",
     label: "Nation",
-    description: "Oscana's current state",
+    description: `${instance.name}'s current state`,
     group: "Records",
     keywords: "economy civil rights freedoms",
   },
@@ -105,9 +106,9 @@ const destinations = [
     keywords: "tutorial rules help",
   },
   {
-    to: "https://discord.gg/kYdDXfJFdn",
-    label: "Oscana Discord",
-    description: "Join the Oscana game community on Discord",
+    to: instance.social.community ?? "/dashboard",
+    label: `${instance.name} Discord`,
+    description: `Join the ${instance.name} game community on Discord`,
     group: "Community",
     keywords: "discord chat community join server",
   },
@@ -125,8 +126,10 @@ export function QuickNavigation({ keyboardShortcut = true, iconOnly = false }: {
   const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   const matches = [
     ...destinations.slice(0, 1),
-    ...(user ? commands : []),
-    ...destinations.slice(1),
+    ...(user ? commands.filter((item) => instance.features.social || item.command !== "post") : []),
+    ...destinations.slice(1).filter((item) =>
+      (item.label !== `${instance.name} Discord` || instance.social.community) &&
+      (instance.features.social || item.to !== "/dashboard/social")),
   ].filter((item) =>
     terms.every((term) =>
       `${item.label} ${item.description} ${item.group} ${item.keywords}`
@@ -218,7 +221,7 @@ export function QuickNavigation({ keyboardShortcut = true, iconOnly = false }: {
               Where do you want to go?
             </DialogTitle>
             <DialogDescription>
-              Search tools, topics, and destinations across Oscana.
+              Search tools, topics, and destinations across {instance.name}.
             </DialogDescription>
           </DialogHeader>
           <div className="relative border-b px-4 py-3">

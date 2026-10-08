@@ -33,6 +33,7 @@
     "db:seed:midterms": "tsx scripts/seed.ts midterms",
     "db:seed:committee-test": "tsx scripts/seed.ts committee-test",
     "db:seed:fresh": "tsx scripts/seed-fresh.ts",
+    "db:seed:users": "tsx scripts/seed-users.ts",
     "db:seed:party-leader": "tsx scripts/seed-party-role.ts leader",
     "db:seed:chief-whip": "tsx scripts/seed-party-role.ts chief-whip",
     "db:seed:social-media-officer": "tsx scripts/seed-party-role.ts social-media-officer",

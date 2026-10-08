@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
 import { useEffect, useState } from "react";
@@ -5,6 +6,7 @@ import { signIn } from "@/lib/auth-utils";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { AuthIntro } from "@/components/auth/auth-intro";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -34,8 +36,7 @@ function LoginPage() {
   });
 
   return (
-    <div className="flex flex-1 items-center justify-center p-4 py-8">
-      <div className="w-full max-w-md space-y-4">
+    <AuthIntro>
         <Card className="w-full space-y-6 rounded-sm p-5 shadow-sm sm:p-7">
           <div className="space-y-2 text-center">
             <h1 className="text-2xl font-bold">Sign In</h1>
@@ -117,19 +118,18 @@ function LoginPage() {
           </form>
         </Card>
         <p className="text-center text-sm text-muted-foreground">
-          Don't have an account? Ask a player for an invite link to sign up, or
-          ask in the Oscana{" "}
+           Don't have an account? Ask a player for an invite link to sign up
+           {instance.social.community && <>, or ask in the {instance.name}{" "}
           <a
-            href="https://discord.gg/kYdDXfJFdn"
+             href={instance.social.community}
             target="_blank"
             rel="noopener noreferrer"
             className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
           >
             Discord
           </a>
-          .
+           .</>}
         </p>
-      </div>
-    </div>
+    </AuthIntro>
   );
 }

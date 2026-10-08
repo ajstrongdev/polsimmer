@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
@@ -94,7 +95,7 @@ type SocialComment = {
 export function SocialTimeline({
   entries,
   onRefresh,
-  emptyMessage = "It’s quiet on Z.com. Be the first to post.",
+  emptyMessage = `It’s quiet on ${instance.branding.socialName}. Be the first to post.`,
   openCommentsForPostId,
   highlightCommentId,
   viewerId,

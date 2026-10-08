@@ -49,6 +49,8 @@ chmod 600 /srv/democracyonline-dev/.env /srv/democracyonline-prod/.env
 
 Replace every `CHANGE_ME` value. Keep each generated `DB_PASSWORD`, `DATABASE_URL`, `CRON_INTERNAL_TOKEN`, project name, port, and `SITE_URL` tied to its environment. A PostgreSQL password change requires changing both `DB_PASSWORD` and the password embedded in `DATABASE_URL`; after a database volume exists, rotate the database role password inside PostgreSQL too. Never copy one `.env` over the other.
 
+To use a different profile, set `VITE_INSTANCE_CONFIG=instances/dev.json` in that checkout's `.env` (and commit the public JSON file for Actions deployments). `scripts/vps.sh` reads the path relative to the checkout and supplies its JSON to the app build and seeds. Leave the value blank or unset to use `instances/oscana.json`. Do not use `$(cat ...)` in `.env`. Rebuild to apply profile changes; seeds reset game data.
+
 Firebase values come from the Firebase console as described in [Firebase Authentication](docs/FIREBASE_AUTH.md). For the current shared project, authorize both `oscana.nya.je` and `dev.oscana.nya.je`. When splitting the projects, authorize only the matching hostname in each. Use the service account JSON `project_id`, `client_email`, and JSON-escaped `private_key` in the corresponding `.env`. Put the key on one line, in double quotes, with literal `\n` sequences. `VITE_*` values are browser configuration; the service account private key must stay server-side. Set `ADMIN_EMAILS` to real admin addresses.
 
 Check each configuration:

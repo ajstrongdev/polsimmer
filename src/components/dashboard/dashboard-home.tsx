@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { Link, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
@@ -180,13 +181,13 @@ export function DashboardContent({
         title={
           currentUser
             ? `Welcome back, ${formatGreetingRole(currentUser.role)} ${currentUser.username}`
-            : "Welcome to Oscana."
+            : `Welcome to ${instance.name}.`
         }
         description={
           currentUser
             ? actionCount
               ? `You have ${actionCount} ${actionCount === 1 ? "action" : "actions"} to take. Start below.`
-              : "You're caught up. Explore what's happening in Oscana below."
+              : `You're caught up. Explore what's happening in ${instance.name} below.`
             : "See what's happening and learn how to play."
         }
         status={!electionNight ? <LiveLabel /> : undefined}
@@ -247,7 +248,7 @@ export function DashboardContent({
                       <Users className="mt-0.5 size-4 shrink-0 text-primary" />
                       <div>
                         <p className="font-semibold">
-                          Find your place in Oscana
+                          Find your place in {instance.name}
                         </p>
                         <p className="text-sm text-muted-foreground">
                           Join a party or create one to shape the nation
@@ -630,7 +631,7 @@ export function DashboardContent({
 
           {currentUser && (
             <div className="mt-3 flex flex-wrap justify-end gap-1">
-              <Button
+              {instance.social.community && <Button
                 asChild
                 type="button"
                 size="sm"
@@ -638,13 +639,13 @@ export function DashboardContent({
                 className="h-8 text-xs"
               >
                 <a
-                  href="https://discord.gg/kYdDXfJFdn"
+                  href={instance.social.community}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <MessageSquareText className="size-3.5" /> Oscana Discord
+                  <MessageSquareText className="size-3.5" /> {instance.name} Discord
                 </a>
-              </Button>
+              </Button>}
               <Button
                 type="button"
                 size="sm"

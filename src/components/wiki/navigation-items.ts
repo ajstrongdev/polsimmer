@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import {
   BookOpen,
   Flag,
@@ -19,7 +20,7 @@ export const navigationItems = [
   { label: "Elections", to: "/dashboard/elections", icon: Vote },
   { label: "Parties", to: "/dashboard/parties", icon: UsersRound },
   { label: "Presidential primaries", to: "/dashboard/parties/primaries", icon: Landmark },
-  { label: "Z.com", to: "/dashboard/social", icon: MessageSquareText },
+  { label: instance.branding.socialName, to: "/dashboard/social", icon: MessageSquareText },
   { label: "Players", to: "/dashboard/players", icon: UserRound },
   { label: "Nation", to: "/dashboard/nation", icon: Flag },
   { label: "Government history", to: "/dashboard/government", icon: History },
@@ -28,14 +29,14 @@ export const navigationItems = [
 
 export const navigationGroups = [
   { label: "Political activity", items: navigationItems.slice(0, 5) },
-  { label: "People & news", items: navigationItems.slice(5, 7) },
+  { label: "People & news", items: navigationItems.slice(5, 7).filter((item) => instance.features.social || item.to !== "/dashboard/social") },
   { label: "Nation & reference", items: navigationItems.slice(7) },
 ] as const;
 
 export const mobilePrimaryItems = [
   { ...navigationItems[0], shortLabel: "Home" },
   { ...navigationItems[1], shortLabel: "Bills" },
-  { ...navigationItems[5], shortLabel: "Z.com" },
+  ...(instance.features.social ? [{ ...navigationItems[5], shortLabel: instance.branding.socialName }] : []),
 ] as const;
 
 export const mobileDrawerGroups = navigationGroups

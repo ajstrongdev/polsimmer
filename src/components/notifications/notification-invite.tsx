@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { AccountSettingsDialog } from "@/components/settings/account-settings-dialog";
@@ -18,8 +19,8 @@ export function NotificationInvite({ active }: { active: boolean }) {
 
   useEffect(() => {
     setPublicKey(null);
-    if (!active || !user || !sessionReady || !canUseWebPush() || Notification.permission !== "default") return;
-    const reminderKey = `oscana:push-invite:${user.uid}`;
+    if (!instance.features.browserNotifications || !active || !user || !sessionReady || !canUseWebPush() || Notification.permission !== "default") return;
+    const reminderKey = `${instance.id}:push-invite:${user.uid}`;
     const lastDismissed = Number(localStorage.getItem(reminderKey) ?? "0");
     if (Date.now() - lastDismissed < reminderMs) return;
     let current = true;
@@ -29,9 +30,9 @@ export function NotificationInvite({ active }: { active: boolean }) {
     return () => { current = false; };
   }, [active, user?.uid, sessionReady]);
 
-  if (!active || !publicKey || !user) return null;
+   if (!instance.features.browserNotifications || !active || !publicKey || !user) return null;
   const dismiss = () => {
-    localStorage.setItem(`oscana:push-invite:${user.uid}`, String(Date.now()));
+    localStorage.setItem(`${instance.id}:push-invite:${user.uid}`, String(Date.now()));
     setPublicKey(null);
   };
   const enable = async () => {
@@ -50,8 +51,8 @@ export function NotificationInvite({ active }: { active: boolean }) {
 
   return (
     <aside aria-label="Notification invitation" className="fixed bottom-4 right-4 z-40 w-[min(22rem,calc(100vw-2rem))] space-y-3 rounded-xl border bg-card p-4 shadow-lg">
-       <p className="font-semibold">Stay up to date on Z.com?</p>
-       <p className="text-sm text-muted-foreground">Enable browser notifications for mentions, comments on your posts and Your next moves when Oscana is closed. You can change this any time.</p>
+        <p className="font-semibold">Stay up to date on {instance.branding.socialName}?</p>
+       <p className="text-sm text-muted-foreground">Enable browser notifications for mentions, comments on your posts and Your next moves when {instance.name} is closed. You can change this any time.</p>
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
       <div className="flex flex-wrap gap-2">
         <Button size="sm" disabled={busy} onClick={() => void enable()}>Enable notifications</Button>

@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { useState } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -45,7 +46,7 @@ export function PartyLeadership({
             <h3 className="font-serif text-lg font-semibold">Party Leader</h3>
             <p className="mt-1 text-sm text-muted-foreground">
               Approves membership requests, expels members, and appoints
-              officers. Does not issue guidance, enforce whips, or manage Z.com.
+               officers. Does not issue guidance, enforce whips, or manage {instance.branding.socialName}.
             </p>
           </div>
           <OfficerIdentity member={leader} />
@@ -65,7 +66,7 @@ export function PartyLeadership({
           partyId={party.id}
           office="socialMediaOfficer"
           title="Social Media Officer"
-          description="Publishes official party updates on Z.com."
+          description={`Publishes official party updates on ${instance.branding.socialName}.`}
           holderId={party.socialMediaOfficerId}
           otherHolderId={party.chiefWhipId}
           leaderId={party.leaderId}

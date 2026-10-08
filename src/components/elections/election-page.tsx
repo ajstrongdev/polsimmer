@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { useEffect, useState } from "react";
 import { Link, useRouter } from "@tanstack/react-router";
 import {
@@ -202,7 +203,7 @@ export function ElectionsPage({
             <div className="mb-8 flex items-center justify-between border-b border-white/20 pb-3">
               <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.24em] text-white/70">
                 <Newspaper className="h-4 w-4" />
-                Oscana News
+                {instance.name} News
               </div>
               {hasActiveRaces && (
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-red-300">
@@ -218,7 +219,7 @@ export function ElectionsPage({
               <div>
                 <div className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.18em] text-emerald-300">
                   <Sparkles className="h-4 w-4" />
-                  Oscana decides
+                  {instance.name} decides
                 </div>
                  <h1 className="max-w-4xl break-words font-serif text-4xl font-black leading-tight tracking-tight sm:text-6xl lg:text-7xl">
                   {isMidterm

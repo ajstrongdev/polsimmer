@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -16,7 +17,7 @@ type PartySocialPost = {
 
 export function SocialPartyPosts({ posts }: { posts: Array<PartySocialPost> }) {
   return (
-    <WikiSection title="Z.com account" description="Posts published from this party’s official account.">
+    <WikiSection title={`${instance.branding.socialName} account`} description="Posts published from this party’s official account.">
       {posts.length ? (
         <div className="divide-y border-y">
           {posts.map((post) => (
@@ -40,7 +41,7 @@ export function SocialPartyPosts({ posts }: { posts: Array<PartySocialPost> }) {
           ))}
         </div>
       ) : (
-        <WikiEmpty>This party has not posted from its Z.com account yet.</WikiEmpty>
+         <WikiEmpty>This party has not posted from its {instance.branding.socialName} account yet.</WikiEmpty>
       )}
     </WikiSection>
   );

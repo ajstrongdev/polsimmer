@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { useEffect, useRef } from "react";
 import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
@@ -36,7 +37,7 @@ function BallotPage() {
             election={race.election}
             candidates={race.candidates.map((candidate) => toBallotCandidate(race, candidate))}
             votingStatus={{ hasVoted: race.player.hasVoted, ranking: [] }}
-            draftKey={`oscana:ballot:${user.uid}:${race.election}:${race.cycle}`}
+             draftKey={`${instance.id}:ballot:${user.uid}:${race.election}:${race.cycle}`}
             onSubmitted={() => void router.invalidate()}
           />}
     </div>

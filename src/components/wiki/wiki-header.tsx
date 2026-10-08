@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { BookOpen } from "lucide-react";
 import type { ReactNode } from "react";
@@ -11,17 +12,17 @@ import { pageArtwork } from "@/lib/masthead-artwork";
 export function WikiNavigation() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const authScreen = ["/login", "/register", "/banned"].includes(pathname);
-  if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) return null;
+  if (pathname !== "/dashboard" && !pathname.startsWith("/dashboard/")) return null;
   return (
     <header className={`sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85 ${authScreen ? "" : "lg:hidden"}`}>
       <div className="mx-auto flex max-w-7xl items-center border-x">
         <Link
           to="/dashboard"
-          aria-label="Oscana home"
+          aria-label={`${instance.name} home`}
           className="inline-flex shrink-0 items-center gap-2 border-r px-3 py-3 font-serif text-sm font-bold tracking-wide hover:text-primary sm:px-5"
         >
           <BookOpen className="h-4 w-4 text-primary" />
-          <span>Oscana</span>
+          <span>{instance.name}</span>
         </Link>
         <div className="min-w-0 flex-1" />
         <div className="flex shrink-0 items-center border-l px-1 sm:px-2">

@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -93,8 +94,8 @@ export function NotificationSettings() {
   const update = (values: Partial<Settings>) => setDraft((current) => current ? { ...current, ...values } : current);
   return (
     <div className="space-y-5 text-sm">
-       <p className="text-muted-foreground">Choose how you hear about Z.com mentions, comments on your posts and pending decisions. Web Push works when this site is closed, only after you enable it.</p>
-       <p className="text-xs text-muted-foreground">In-app Z.com alerts and Your next moves remain visible on your dashboard. These settings control optional Web Push only.</p>
+       <p className="text-muted-foreground">Choose how you hear about {instance.branding.socialName} mentions, comments on your posts and pending decisions. Web Push works when this site is closed, only after you enable it.</p>
+       <p className="text-xs text-muted-foreground">In-app {instance.branding.socialName} alerts and Your next moves remain visible on your dashboard. These settings control optional Web Push only.</p>
       <div className="space-y-3 rounded-xl border p-4">
         <div><p className="font-medium">Web Push</p><p className="text-xs text-muted-foreground">Subscriptions are stored per browser. Disabling removes all your devices.</p></div>
         {(draft.pushMentions || draft.pushNextMoves) ? (
@@ -106,7 +107,7 @@ export function NotificationSettings() {
             <Button type="button" disabled={busy} onClick={() => void enable()}>{draft.pushMentions || draft.pushNextMoves ? "Enable on this browser" : "Enable Web Push"}</Button>
             {(draft.pushMentions || draft.pushNextMoves) && <Button type="button" variant="outline" disabled={busy} onClick={() => void disable()}>Disable on all devices</Button>}
           </div>}
-         <label className="flex items-center gap-3"><input type="checkbox" className="size-5 accent-primary" disabled={busy || !draft.subscriptionCount} checked={draft.pushMentions} onChange={(event) => update({ pushMentions: event.target.checked })} /> Web Push for Z.com mentions and comments on your posts</label>
+          <label className="flex items-center gap-3"><input type="checkbox" className="size-5 accent-primary" disabled={busy || !draft.subscriptionCount} checked={draft.pushMentions} onChange={(event) => update({ pushMentions: event.target.checked })} /> Web Push for {instance.branding.socialName} mentions and comments on your posts</label>
         <label className="flex items-center gap-3"><input type="checkbox" className="size-5 accent-primary" disabled={busy || !draft.subscriptionCount} checked={draft.pushNextMoves} onChange={(event) => update({ pushNextMoves: event.target.checked })} /> Web Push for Your next moves</label>
         {canUseWebPush() && Notification.permission === "denied" && <p className="text-xs text-muted-foreground">Notifications are blocked in browser settings. Change that permission before trying again.</p>}
       </div>
@@ -124,7 +125,7 @@ export function NotificationSettings() {
           <div className="space-y-1"><Label htmlFor="quiet-end">Until</Label><Input id="quiet-end" type="time" value={timeValue(draft.quietEnd, "07:00")} onChange={(event) => update({ quietEnd: minutes(event.target.value) })} /></div>
         </div>}
         <div className="space-y-1"><Label htmlFor="push-time-zone">Time zone (IANA)</Label><Input id="push-time-zone" value={draft.timeZone} onChange={(event) => update({ timeZone: event.target.value })} placeholder={Intl.DateTimeFormat().resolvedOptions().timeZone} maxLength={100} /></div>
-         <p className="text-xs text-muted-foreground">Push messages during quiet hours are skipped, not queued for later. In-app Z.com alerts remain available.</p>
+          <p className="text-xs text-muted-foreground">Push messages during quiet hours are skipped, not queued for later. In-app {instance.branding.socialName} alerts remain available.</p>
       </div>
       <Button type="button" disabled={busy} onClick={() => void save()}>{busy ? "Saving…" : "Save preferences"}</Button>
     </div>

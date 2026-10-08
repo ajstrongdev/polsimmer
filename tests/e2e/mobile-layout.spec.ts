@@ -36,7 +36,10 @@ test("mobile dashboard controls and workspace fit on narrow screens", async ({
 
     // The TanStack Devtools launcher can overlay the bottom-right corner in
     // this environment. Use the navigation's keyboard-accessible path.
-    await page.getByRole("button", { name: "Open navigation" }).press("Enter");
+    await page
+      .getByRole("navigation", { name: "Primary navigation" })
+      .getByRole("button", { name: "Open navigation" })
+      .press("Enter");
     const navigation = page.getByRole("dialog", { name: "Oscana" });
     await expect(navigation).toBeVisible();
     // Chromium reports fractional bounding boxes (e.g. 43.99998px for 44px).

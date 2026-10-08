@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -233,14 +234,14 @@ export function SocialContent({
         <header className="border-b pb-4 sm:pb-5">
           <p className="wiki-kicker mb-1">The public square</p>
           <h1 className="font-serif text-3xl font-bold tracking-tight sm:text-4xl">
-            Z.com
+             {instance.branding.socialName}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            What’s happening in Oscana, right now.
+            What’s happening in {instance.name}, right now.
           </p>
         </header>
         <div className="grid min-w-0 items-start gap-6 2xl:grid-cols-[minmax(0,1fr)_15rem]">
-          <section className="min-w-0" aria-label="Z.com timeline">
+           <section className="min-w-0" aria-label={`${instance.branding.socialName} timeline`}>
             <div className="overflow-hidden rounded-2xl border bg-card">
               <div className="border-b px-4 py-3">
                 <h2 className="font-serif text-xl font-bold">
@@ -271,7 +272,7 @@ export function SocialContent({
                         placeholder={
                           selectedBill
                             ? `What do you think about Bill #${selectedBill.id}?`
-                            : "What’s happening in Oscana?"
+                            : `What’s happening in ${instance.name}?`
                         }
                         maxLength={280}
                         rows={2}
@@ -558,7 +559,7 @@ export function SocialContent({
               <p className="border-y px-3 py-2 text-xs text-muted-foreground sm:px-5">
                 {account === "following"
                   ? "Posts and reposts from people you follow."
-                  : "Explore original posts from across Oscana. Reposts appear in Following."}
+                  : `Explore original posts from across ${instance.name}. Reposts appear in Following.`}
               </p>
               {feedError && (
                 <div
@@ -668,7 +669,7 @@ export function SocialContent({
 
           <aside
             className="hidden 2xl:sticky 2xl:top-6 2xl:block"
-            aria-label="Discover on Z.com"
+             aria-label={`Discover on ${instance.branding.socialName}`}
           >
             <div className="border-b pb-3">
               <p className="wiki-kicker">Discover</p>

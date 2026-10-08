@@ -12,7 +12,7 @@ value() {
 }
 compose() { docker compose --env-file .env "$@"; }
 check() {
-  local key val
+  local key val profile
   for key in DEPLOYED_ENV COMPOSE_PROJECT_NAME APP_PORT SITE_URL DB_PASSWORD DATABASE_URL CRON_INTERNAL_TOKEN ADMIN_EMAILS FIREBASE_PROJECT_ID FIREBASE_CLIENT_EMAIL FIREBASE_PRIVATE_KEY VITE_FIREBASE_API_KEY VITE_FIREBASE_AUTH_DOMAIN VITE_FIREBASE_PROJECT_ID VITE_FIREBASE_STORAGE_BUCKET VITE_FIREBASE_MESSAGING_SENDER_ID VITE_FIREBASE_APP_ID; do
     val="$(value "$key")"
     if [[ -z "$val" || "$val" == *CHANGE_ME* || "$val" == *example.com* ]]; then
@@ -29,6 +29,13 @@ check() {
   [[ "$(value DATABASE_URL)" == "postgresql://democracyonline:$(value DB_PASSWORD)@db:5432/democracyonline" ]] || { echo "DATABASE_URL and DB_PASSWORD do not match this project's database" >&2; return 1; }
   [[ "$(value FIREBASE_PROJECT_ID)" == "$(value VITE_FIREBASE_PROJECT_ID)" ]] || { echo "Firebase project IDs differ" >&2; return 1; }
   [[ "$(value CRON_INTERNAL_TOKEN)" =~ ^[a-f0-9]{64}$ ]] || { echo "CRON_INTERNAL_TOKEN must be 64 hex characters" >&2; return 1; }
+  profile="$(value VITE_INSTANCE_CONFIG)"
+  if [[ -n "$profile" ]]; then
+    [[ -s "$profile" ]] || { echo "Missing instance config file: $profile" >&2; return 1; }
+    export VITE_INSTANCE_CONFIG="$(cat "$profile")"
+  else
+    unset VITE_INSTANCE_CONFIG
+  fi
   compose config --quiet
   echo "Configuration OK for $(value DEPLOYED_ENV)"
 }

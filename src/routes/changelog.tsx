@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 import { WikiHeader } from "@/components/wiki/wiki-header";
@@ -29,7 +30,7 @@ const releases = [
     dateTime: "2026-10-01",
     headline: "See every primary. Follow more of the conversation.",
     summary:
-      "Track nominations across parties and coalitions, join the conversation on Z.com, and keep party decisions moving.",
+      `Track nominations across parties and coalitions, join the conversation on ${instance.branding.socialName}, and keep party decisions moving.`,
     highlights: [
       {
         title: "Follow every primary race",
@@ -37,7 +38,7 @@ const releases = [
           "For the first time, you can follow live candidates and vote totals in every party and coalition primary, not just the race for your own party or coalition. Browse other parties’ and coalitions’ races with the arrows or swipe on mobile, and vote in your own race right from the dashboard. Primaries also appear on their party and coalition pages. If you are eligible and have not voted, Your next moves reminds you while voting is open; optional browser notifications can remind you too.",
       },
       {
-        title: "Make Z.com your own",
+        title: `Make ${instance.branding.socialName} your own`,
         detail:
           "Follow players from their posts or profiles, then use Following to see their posts and reposts. The main feed highlights original posts, and active discussions are easier to find.",
       },
@@ -49,7 +50,7 @@ const releases = [
       {
         title: "Know when someone replies",
         detail:
-          "Comments on your Z.com posts now appear alongside mentions in dashboard alerts. Optional browser notifications can let you know when someone replies and take you back to the conversation.",
+          `Comments on your ${instance.branding.socialName} posts now appear alongside mentions in dashboard alerts. Optional browser notifications can let you know when someone replies and take you back to the conversation.`,
       },
       {
         title: "Keep membership moving",
@@ -109,7 +110,7 @@ const releases = [
       {
         title: "For the developers...",
         detail:
-          "Bots can now publish Z.com posts through the API, alongside the existing integration tools.",
+          `Bots can now publish ${instance.branding.socialName} posts through the API, alongside the existing integration tools.`,
       },
     ],
   },
@@ -124,7 +125,7 @@ const releases = [
       {
         title: "Stay in the loop",
         detail:
-          "Optional browser notifications alert you to Z.com mentions and decisions waiting for you. Set quiet hours, choose which browsers receive them, or keep using in-game alerts.",
+          `Optional browser notifications alert you to ${instance.branding.socialName} mentions and decisions waiting for you. Set quiet hours, choose which browsers receive them, or keep using in-game alerts.`,
       },
       {
         title: "See the game move",
@@ -149,7 +150,7 @@ const releases = [
       {
         title: "Find your way faster",
         detail:
-          "Use the desktop sidebar or mobile navigation bar to move between bills, elections, parties, and Z.com. The mobile menu keeps less-used pages within reach.",
+          `Use the desktop sidebar or mobile navigation bar to move between bills, elections, parties, and ${instance.branding.socialName}. The mobile menu keeps less-used pages within reach.`,
       },
       {
         title: "Make it yours",
@@ -197,7 +198,7 @@ const releases = [
       {
         title: "A conversation to join",
         detail:
-          "Meet other players and make your case on Z.com. Polsimmer is self-hostable, so the first instance can be the start of many nations people create themselves.",
+          `Meet other players and make your case on ${instance.branding.socialName}. Polsimmer is self-hostable, so the first instance can be the start of many nations people create themselves.`,
       },
     ],
   },
@@ -306,9 +307,9 @@ function ChangelogPage() {
           Follow platform updates and meet the people building and playing
           Polsimmer.
         </p>
-        <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
+         <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
           <a
-            href="https://discord.gg/XREYCNFAdC"
+             href="https://discord.gg/XREYCNFAdC"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-primary hover:underline"
@@ -316,7 +317,7 @@ function ChangelogPage() {
             Polsimmer Discord{" "}
             <ArrowUpRight className="size-4" aria-hidden="true" />
           </a>
-        </div>
+         </div>
       </aside>
     </WikiPage>
   );

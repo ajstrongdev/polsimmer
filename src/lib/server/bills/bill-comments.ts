@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { createServerFn } from "@tanstack/react-start";
 import { and, asc, eq, gt, ilike, isNotNull, or, sql } from "drizzle-orm";
 import { z } from "zod";
@@ -107,7 +108,7 @@ export const addBillComment = createServerFn({ method: "POST" })
       });
       await tx.insert(feed).values({
         userId: author.id,
-        content: `${data.parentId ? "replied to a discussion on" : "commented on"} Bill #${bill.id} on Z.com`,
+         content: `${data.parentId ? "replied to a discussion on" : "commented on"} Bill #${bill.id} on ${instance.branding.socialName}`,
       });
       return comment;
     });

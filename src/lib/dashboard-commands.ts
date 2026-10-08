@@ -1,4 +1,5 @@
+import { instance } from "./instance-config";
 export const dashboardComposeEvent = {
-  bill: "oscana:compose-bill",
-  post: "oscana:compose-post",
+  bill: `${instance.id}:compose-bill`,
+  post: `${instance.id}:compose-post`,
 } as const;

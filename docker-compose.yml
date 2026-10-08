@@ -23,6 +23,7 @@ services:
       args:
         BUILD_NODE_HEAP_MB: ${BUILD_NODE_HEAP_MB:-4096}
         VITE_COMMIT_SHA: ${DEPLOY_COMMIT_SHA:-}
+        VITE_INSTANCE_CONFIG: ${VITE_INSTANCE_CONFIG:-}
         VITE_FIREBASE_API_KEY: ${VITE_FIREBASE_API_KEY}
         VITE_FIREBASE_AUTH_DOMAIN: ${VITE_FIREBASE_AUTH_DOMAIN}
         VITE_FIREBASE_PROJECT_ID: ${VITE_FIREBASE_PROJECT_ID}
@@ -35,6 +36,7 @@ services:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 3000
+      VITE_INSTANCE_CONFIG: ${VITE_INSTANCE_CONFIG:-}
     ports:
       - "127.0.0.1:${APP_PORT:?Set APP_PORT in .env}:3000"
     depends_on:
@@ -70,6 +72,8 @@ services:
       context: .
       target: tooling
     env_file: .env
+    environment:
+      VITE_INSTANCE_CONFIG: ${VITE_INSTANCE_CONFIG:-}
     command: ["bun", "run", "db:migrate"]
     depends_on:
       db:

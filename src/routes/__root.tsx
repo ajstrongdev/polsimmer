@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import {
   HeadContent,
   Link,
@@ -72,15 +73,18 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     }
   },
   loader: async () => {
-    const [storedTheme, customScheme] = await Promise.all([
+    const [savedTheme, selectedScheme] = await Promise.all([
       getThemeServerFn(),
       getSelectedColorScheme(),
     ]);
+    const customScheme = selectedScheme ?? (!savedTheme.hasPreference && instance.theme.colors
+      ? { id: -1, name: "Instance default", ...instance.theme.colors }
+      : null);
     const theme = customScheme
       ? customScheme.mode === "dark"
         ? "dark"
         : "light"
-      : storedTheme;
+      : savedTheme.theme;
     return { theme, customScheme };
   },
   head: () => ({
@@ -93,8 +97,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "Oscana",
+        title: instance.name,
       },
+      { name: "description", content: instance.description },
+      { property: "og:site_name", content: instance.name },
+      { property: "og:url", content: instance.domain },
     ],
     links: [
       {
@@ -103,7 +110,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         rel: "icon",
-        href: "/favicon.ico",
+        href: instance.branding.icon,
+      },
+      {
+        rel: "apple-touch-icon",
+        href: instance.branding.logo,
       },
     ],
   }),
@@ -135,9 +146,9 @@ function RootLayout() {
               {" "}·{" "}
               <Link to="/changelog" className="font-medium text-primary hover:underline">Changelog</Link>
               {" "}·{" "}
-               <a href="https://discord.gg/XREYCNFAdC" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">Join the Polsimmer Discord</a>
-              {" "}·{" "}
-              <a href="https://ko-fi.com/polsimmer" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">Buy me a Coffee</a>
+               {"·"} <a href="https://discord.gg/XREYCNFAdC" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">Join the Polsimmer Discord</a>
+               {" "}·{" "}
+               <a href="https://ko-fi.com/polsimmer" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">Buy me a Coffee</a>
             </footer>
           </div>
         </div>
@@ -170,7 +181,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const { theme, customScheme } = Route.useLoaderData();
   return (
     <html
-      lang="en"
+      lang={instance.locale}
       className={getThemeClasses(theme)}
       style={
         customScheme

@@ -13,6 +13,8 @@ if (!process.env.DATABASE_URL) {
   loadEnvFile(process.env.COMPOSE_ENV_FILE ?? ".env");
 }
 
+const { instance } = await import("../src/lib/instance-config");
+
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is required");
 }
@@ -147,7 +149,7 @@ try {
     ["name", "civil_rights", "economy", "political_freedoms"],
     [
       [
-        "The Republic of Oscana",
+        instance.nationName,
         headlines.civil_rights,
         headlines.economy,
         headlines.political_freedoms,

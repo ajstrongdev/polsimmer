@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { useEffect, useState } from "react";
 import { useRouter } from "@tanstack/react-router";
 import {
@@ -111,7 +112,7 @@ export function DashboardSocialPostDialog({
       setPreview(false);
       setOpen(false);
       await router.invalidate();
-      toast.success("Post published to Z.com");
+      toast.success(`Post published to ${instance.branding.socialName}`);
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Could not publish post",
@@ -130,7 +131,7 @@ export function DashboardSocialPostDialog({
         >
           <MessageSquareText className="size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
           <span className="min-w-0 flex-1">
-            <span className="block font-semibold">Create a Z.com post</span>
+             <span className="block font-semibold">Create a {instance.branding.socialName} post</span>
             <span className="mt-0.5 block text-xs leading-4 text-muted-foreground">
               Share an update or discuss a bill.
             </span>
@@ -141,7 +142,7 @@ export function DashboardSocialPostDialog({
       <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl">
-            Create a Z.com post
+             Create a {instance.branding.socialName} post
           </DialogTitle>
           <DialogDescription>
             Publish as yourself, or an account you manage.

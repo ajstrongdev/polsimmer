@@ -1,5 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { SignupForm } from "@/components/auth/signup-form";
+import { AuthIntro } from "@/components/auth/auth-intro";
 import { validateInvitation } from "@/lib/server/users/invitations";
 
 export const Route = createFileRoute("/register")({
@@ -24,8 +25,7 @@ function RegisterPage() {
   const { validInvite } = Route.useLoaderData();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-4">
+    <AuthIntro>
         {validInvite && invite ? (
           <SignupForm key={invite} inviteToken={invite} />
         ) : (
@@ -43,7 +43,6 @@ function RegisterPage() {
             Sign in
           </Link>
         </p>
-      </div>
-    </div>
+    </AuthIntro>
   );
 }

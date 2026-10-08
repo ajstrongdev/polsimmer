@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { useState } from "react";
 import { useRouter } from "@tanstack/react-router";
 import type { CommentNode } from "@/lib/social-comment-tree";
@@ -274,7 +275,7 @@ export function BillComments({
       </div>
       <WikiSection
         title="Discussion"
-        description="Comments are public and also appear on Z.com with a link back to this bill."
+        description={`Comments are public and also appear on ${instance.branding.socialName} with a link back to this bill.`}
         aside={
           <span className="text-xs text-muted-foreground">
             {comments.length} comments
@@ -330,7 +331,7 @@ export function BillComments({
         {content.trim() && (
           <div className="mt-4 rounded-lg border bg-muted/20 p-3">
             <p className="mb-2 text-xs font-semibold text-muted-foreground">
-              Preview on Z.com
+               Preview on {instance.branding.socialName}
             </p>
             <MarkdownContent
               content={billCommentPostContent(billId, content)}

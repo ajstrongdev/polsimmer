@@ -16,13 +16,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuth } from "@/lib/auth-context";
+import { instance } from "@/lib/instance-config";
 import { colorSchemeInput, colorSchemeStyle } from "@/lib/color-schemes";
 import {
   deleteColorScheme,
   getColorSchemeCatalog,
   saveColorScheme,
 } from "@/lib/server/settings/color-schemes";
-import { themes } from "@/lib/server/settings/theme";
+import { resetThemeServerFn, themeConfig, themes } from "@/lib/server/settings/theme";
 
 type Catalog = Awaited<ReturnType<typeof getColorSchemeCatalog>>;
 type SavedScheme =
@@ -242,25 +243,46 @@ export function ModeToggle() {
           <p className="px-2 py-1 text-xs font-medium text-muted-foreground">
             Choose a theme
           </p>
-          {themes.map((t) => (
-            <button
-              type="button"
-              key={t.id}
-              disabled={busy}
-              onClick={() => {
-                setTheme(t.id);
-                setOpen(false);
+          <button
+            type="button"
+            disabled={busy}
+            onClick={async () => {
+              await resetThemeServerFn();
+              window.location.reload();
+            }}
+            className="flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground"
+          >
+            <span
+              className="size-4 shrink-0 rounded-full border"
+              style={{
+                backgroundColor:
+                  instance.theme.colors?.primary ??
+                  themes.find((item) => item.id === themeConfig.defaultTheme)?.swatch,
               }}
-              className={`flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground ${theme === t.id && !customScheme ? "font-medium" : ""}`}
-            >
-              <span
-                className="size-4 shrink-0 rounded-full border"
-                style={{ backgroundColor: t.swatch }}
-              />
-              <span className="flex-1 text-left">{t.label}</span>
-              {theme === t.id && !customScheme && <Check className="size-4" />}
-            </button>
-          ))}
+            />
+            <span className="flex-1 text-left">Default</span>
+          </button>
+          {themes
+            .filter((t) => !instance.theme.colors || (t.id !== "light" && t.id !== "dark"))
+            .map((t) => (
+              <button
+                type="button"
+                key={t.id}
+                disabled={busy}
+                onClick={() => {
+                  setTheme(t.id);
+                  setOpen(false);
+                }}
+                className={`flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground ${theme === t.id && !customScheme ? "font-medium" : ""}`}
+              >
+                <span
+                  className="size-4 shrink-0 rounded-full border"
+                  style={{ backgroundColor: t.swatch }}
+                />
+                <span className="flex-1 text-left">{t.label}</span>
+                {theme === t.id && !customScheme && <Check className="size-4" />}
+              </button>
+            ))}
           {user && (
             <>
               <div className="mt-2 border-t px-2 pt-2 text-xs font-semibold text-muted-foreground">

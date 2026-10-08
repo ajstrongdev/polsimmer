@@ -13,10 +13,10 @@ self.addEventListener("push", (event) => {
     }
   }
   event.waitUntil(self.registration.showNotification(
-    typeof message.title === "string" ? message.title.slice(0, 80) : "Oscana",
+    typeof message.title === "string" ? message.title.slice(0, 80) : "Notification",
     {
       body: typeof message.body === "string" ? message.body.slice(0, 120) : "You have a new notification.",
-      tag: typeof message.tag === "string" ? message.tag.slice(0, 100) : "oscana-mention",
+      tag: typeof message.tag === "string" ? message.tag.slice(0, 100) : "mention",
       icon: "/favicon.ico",
       data: { target },
     },

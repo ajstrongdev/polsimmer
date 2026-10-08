@@ -1,0 +1,31 @@
+{
+  "id": "oscana",
+  "name": "Oscana",
+  "nationName": "The Republic of Oscana",
+  "description": "Oscana is the ultimate political arena. Build parties, win elections, and pass legislation in a living democracy.",
+  "domain": "https://oscana.nya.je",
+  "locale": "en-US",
+  "timeZone": "UTC",
+  "branding": {
+    "logo": "/logo.png",
+    "icon": "/favicon.ico",
+    "socialName": "Z.com"
+  },
+  "social": {
+    "community": "https://discord.gg/kYdDXfJFdn"
+  },
+  "terminology": {
+    "president": "President",
+    "senate": "Senate",
+    "house": "House",
+    "party": "Party"
+  },
+  "features": {
+    "social": true,
+    "browserNotifications": true
+  },
+  "game": {
+    "billAdvanceScheduleUtc": "0 4,12,20 * * *",
+    "gameAdvanceScheduleUtc": "0 20 * * *"
+  }
+}

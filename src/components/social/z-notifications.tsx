@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -99,7 +100,7 @@ export function ZNotifications({
       <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
         <span className="font-semibold">
           {page.notifications}{" "}
-          {page.notifications === 1 ? "Z.com alert" : "Z.com alerts"}
+          {page.notifications === 1 ? `${instance.branding.socialName} alert` : `${instance.branding.socialName} alerts`}
         </span>
         {page.notifications > 0 && (
           <Button
@@ -216,7 +217,7 @@ export function ZNotifications({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Dismiss all notifications?</DialogTitle>
-            <DialogDescription>This clears your current Z.com notifications.</DialogDescription>
+             <DialogDescription>This clears your current {instance.branding.socialName} notifications.</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setConfirmAll(false)}>Cancel</Button>

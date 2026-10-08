@@ -1,3 +1,4 @@
+import { instance } from "@/lib/instance-config";
 import { createServerFn } from "@tanstack/react-start";
 import { and, asc, desc, eq, isNull, sql } from "drizzle-orm";
 import { z } from "zod";
@@ -480,7 +481,7 @@ export const createSocialPost = createServerFn({ method: "POST" })
         });
         await tx.insert(feed).values({
           userId: player.id,
-          content: `@${player.username} posted on Z.com about Bill #${bill.id}: ${data.content}`,
+          content: `@${player.username} posted on ${instance.branding.socialName} about Bill #${bill.id}: ${data.content}`,
         });
         return post;
       }
@@ -504,8 +505,8 @@ export const createSocialPost = createServerFn({ method: "POST" })
       await tx.insert(feed).values({
         userId: player.id,
         content: data.quotedPostId
-          ? `${accountName} quoted Z.com post #${data.quotedPostId}: ${data.content}`
-          : `${accountName} posted on Z.com: ${data.content}`,
+          ? `${accountName} quoted ${instance.branding.socialName} post #${data.quotedPostId}: ${data.content}`
+          : `${accountName} posted on ${instance.branding.socialName}: ${data.content}`,
       });
       return post;
     });
@@ -578,7 +579,7 @@ export const addSocialComment = createServerFn({ method: "POST" })
         .returning({ id: socialComments.id });
       await tx.insert(feed).values({
         userId: player.id,
-        content: `commented on a Z.com post: ${data.content}`,
+        content: `commented on a ${instance.branding.socialName} post: ${data.content}`,
       });
       return comment;
     });
@@ -629,7 +630,7 @@ export const toggleSocialVote = createServerFn({ method: "POST" })
       ) {
         await tx.insert(feed).values({
           userId: player.id,
-          content: `removed their Z.com vote on post #${data.postId}`,
+          content: `removed their ${instance.branding.socialName} vote on post #${data.postId}`,
         });
         return { vote: null };
       }
@@ -644,7 +645,7 @@ export const toggleSocialVote = createServerFn({ method: "POST" })
       }
       await tx.insert(feed).values({
         userId: player.id,
-        content: `${data.vote === "up" ? "liked" : "disliked"} Z.com post #${data.postId}`,
+         content: `${data.vote === "up" ? "liked" : "disliked"} ${instance.branding.socialName} post #${data.postId}`,
       });
       return { vote: data.vote };
     });
@@ -695,7 +696,7 @@ export const toggleSocialCommentVote = createServerFn({ method: "POST" })
       ) {
         await tx.insert(feed).values({
           userId: player.id,
-          content: `removed their Z.com vote on comment #${data.commentId}`,
+          content: `removed their ${instance.branding.socialName} vote on comment #${data.commentId}`,
         });
         return { vote: null };
       }
@@ -710,7 +711,7 @@ export const toggleSocialCommentVote = createServerFn({ method: "POST" })
       }
       await tx.insert(feed).values({
         userId: player.id,
-        content: `${data.vote === "up" ? "liked" : "disliked"} Z.com comment #${data.commentId}`,
+         content: `${data.vote === "up" ? "liked" : "disliked"} ${instance.branding.socialName} comment #${data.commentId}`,
       });
       return { vote: data.vote };
     });
@@ -744,7 +745,7 @@ export const toggleSocialRepost = createServerFn({ method: "POST" })
       if (deleted) {
         await tx.insert(feed).values({
           userId: player.id,
-          content: `removed their Z.com repost of post #${data.postId}`,
+          content: `removed their ${instance.branding.socialName} repost of post #${data.postId}`,
         });
         return { reposted: false };
       }
@@ -753,7 +754,7 @@ export const toggleSocialRepost = createServerFn({ method: "POST" })
         .values({ postId: data.postId, userId: player.id });
       await tx.insert(feed).values({
         userId: player.id,
-        content: `reposted Z.com post #${data.postId}`,
+        content: `reposted ${instance.branding.socialName} post #${data.postId}`,
       });
       return { reposted: true };
     });
