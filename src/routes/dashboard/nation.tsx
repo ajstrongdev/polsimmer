@@ -184,9 +184,9 @@ function NationOverview() {
               )}
             </div>
             <p className="text-xs text-muted-foreground">
-              Values show the starting state and each passed bill that changed a
-              statistic. Hover a point to see the bill and exact score. Policies
-              are tracked in the change list below.
+              Values show the starting state and each bill or executive order
+              that changed a statistic. Hover a point to see the event and exact
+              score. Policies are tracked in the change list below.
             </p>
           </div>
         ) : (
@@ -263,14 +263,18 @@ function NationOverview() {
         <WikiSection
           title="What changed"
           icon={History}
-          description="The latest laws to leave a mark on the nation."
+          description="The latest laws and orders to leave a mark on the nation."
         >
           <div className="divide-y border-y">
             {data.recentChanges.map((change) => (
               <Link
                 key={change.id}
-                to="/dashboard/bills/$billId"
-                params={{ billId: String(change.billId) }}
+                to={
+                  change.billId
+                    ? "/dashboard/bills/$billId"
+                    : "/dashboard/executive-orders"
+                }
+                params={change.billId ? { billId: String(change.billId) } : {}}
                 className="group flex flex-col gap-1 px-3 py-3 hover:bg-muted/30 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
               >
                 <span className="text-sm">
@@ -536,7 +540,7 @@ function describePolicy(policy: PolicyRecord) {
 }
 
 function formatChange(kind: string, value: boolean | number | string) {
-  return kind === "policy"
+  return kind.startsWith("policy")
     ? formatPolicyValue(value)
     : Number(value).toFixed(1);
 }

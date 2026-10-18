@@ -42,6 +42,60 @@ const definitions: Array<StatDefinition> = [
 ];
 
 describe("buildNationHistory", () => {
+  it("records an order and its cancellation as separate events", () => {
+    const history = buildNationHistory(
+      definitions,
+      new Map([
+        ["rights", 40],
+        ["press", 60],
+      ]),
+      [
+        {
+          id: 1,
+          billId: null,
+          executiveOrderId: 7,
+          billTitle: "Executive order: First",
+          key: "rights",
+          previousValue: 40,
+          newValue: 45,
+          createdAt: new Date("2025-01-01"),
+        },
+        {
+          id: 2,
+          billId: null,
+          executiveOrderId: 7,
+          billTitle: "Executive order: First",
+          key: "press",
+          previousValue: 60,
+          newValue: 55,
+          createdAt: new Date("2025-01-01"),
+        },
+        {
+          id: 3,
+          billId: null,
+          executiveOrderId: 7,
+          billTitle: "Order cancelled: First",
+          key: "rights",
+          previousValue: 45,
+          newValue: 40,
+          createdAt: new Date("2025-01-02"),
+        },
+        {
+          id: 4,
+          billId: null,
+          executiveOrderId: 7,
+          billTitle: "Order cancelled: First",
+          key: "press",
+          previousValue: 55,
+          newValue: 60,
+          createdAt: new Date("2025-01-02"),
+        },
+      ],
+    );
+    expect(history.map((point) => point.stats.rights)).toEqual([40, 45, 40]);
+    expect(history.map((point) => point.stats.press)).toEqual([60, 55, 60]);
+  });
+
   it("rewinds current values and creates one chronological snapshot per bill", () => {
     const history = buildNationHistory(
       definitions,

@@ -38,6 +38,7 @@ import { Route as DashboardNationRouteImport } from './routes/dashboard/nation'
 import { Route as DashboardModerationRouteImport } from './routes/dashboard/moderation'
 import { Route as DashboardGuideRouteImport } from './routes/dashboard/guide'
 import { Route as DashboardGovernmentRouteImport } from './routes/dashboard/government'
+import { Route as DashboardExecutiveOrdersRouteImport } from './routes/dashboard/executive-orders'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard/admin'
 import { Route as BillsSenateRouteImport } from './routes/bills/senate'
 import { Route as BillsOvalOfficeRouteImport } from './routes/bills/oval-office'
@@ -226,6 +227,12 @@ const DashboardGovernmentRoute = DashboardGovernmentRouteImport.update({
   path: '/government',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardExecutiveOrdersRoute =
+  DashboardExecutiveOrdersRouteImport.update({
+    id: '/executive-orders',
+    path: '/executive-orders',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardAdminRoute = DashboardAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -477,6 +484,7 @@ export interface FileRoutesByFullPath {
   '/bills/oval-office': typeof BillsOvalOfficeRoute
   '/bills/senate': typeof BillsSenateRoute
   '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/executive-orders': typeof DashboardExecutiveOrdersRoute
   '/dashboard/government': typeof DashboardGovernmentRoute
   '/dashboard/guide': typeof DashboardGuideRoute
   '/dashboard/moderation': typeof DashboardModerationRoute
@@ -549,6 +557,7 @@ export interface FileRoutesByTo {
   '/bills/oval-office': typeof BillsOvalOfficeRoute
   '/bills/senate': typeof BillsSenateRoute
   '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/executive-orders': typeof DashboardExecutiveOrdersRoute
   '/dashboard/government': typeof DashboardGovernmentRoute
   '/dashboard/guide': typeof DashboardGuideRoute
   '/dashboard/moderation': typeof DashboardModerationRoute
@@ -623,6 +632,7 @@ export interface FileRoutesById {
   '/bills/oval-office': typeof BillsOvalOfficeRoute
   '/bills/senate': typeof BillsSenateRoute
   '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/executive-orders': typeof DashboardExecutiveOrdersRoute
   '/dashboard/government': typeof DashboardGovernmentRoute
   '/dashboard/guide': typeof DashboardGuideRoute
   '/dashboard/moderation': typeof DashboardModerationRoute
@@ -698,6 +708,7 @@ export interface FileRouteTypes {
     | '/bills/oval-office'
     | '/bills/senate'
     | '/dashboard/admin'
+    | '/dashboard/executive-orders'
     | '/dashboard/government'
     | '/dashboard/guide'
     | '/dashboard/moderation'
@@ -770,6 +781,7 @@ export interface FileRouteTypes {
     | '/bills/oval-office'
     | '/bills/senate'
     | '/dashboard/admin'
+    | '/dashboard/executive-orders'
     | '/dashboard/government'
     | '/dashboard/guide'
     | '/dashboard/moderation'
@@ -843,6 +855,7 @@ export interface FileRouteTypes {
     | '/bills/oval-office'
     | '/bills/senate'
     | '/dashboard/admin'
+    | '/dashboard/executive-orders'
     | '/dashboard/government'
     | '/dashboard/guide'
     | '/dashboard/moderation'
@@ -1138,6 +1151,13 @@ declare module '@tanstack/react-router' {
       path: '/government'
       fullPath: '/dashboard/government'
       preLoaderRoute: typeof DashboardGovernmentRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/executive-orders': {
+      id: '/dashboard/executive-orders'
+      path: '/executive-orders'
+      fullPath: '/dashboard/executive-orders'
+      preLoaderRoute: typeof DashboardExecutiveOrdersRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/admin': {
@@ -1439,6 +1459,7 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteRouteChildren {
   DashboardAdminRoute: typeof DashboardAdminRoute
+  DashboardExecutiveOrdersRoute: typeof DashboardExecutiveOrdersRoute
   DashboardGovernmentRoute: typeof DashboardGovernmentRoute
   DashboardGuideRoute: typeof DashboardGuideRoute
   DashboardModerationRoute: typeof DashboardModerationRoute
@@ -1472,6 +1493,7 @@ interface DashboardRouteRouteChildren {
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardAdminRoute: DashboardAdminRoute,
+  DashboardExecutiveOrdersRoute: DashboardExecutiveOrdersRoute,
   DashboardGovernmentRoute: DashboardGovernmentRoute,
   DashboardGuideRoute: DashboardGuideRoute,
   DashboardModerationRoute: DashboardModerationRoute,

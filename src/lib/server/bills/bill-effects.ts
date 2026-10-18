@@ -127,10 +127,21 @@ export async function applyPassedBillEffects(tx: Transaction, billId: number) {
       })
       .onConflictDoNothing();
   }
+  await updateNationHeadlines(tx, nation.id);
+  await tx
+    .update(bills)
+    .set({ nationEffectsAppliedAt: new Date() })
+    .where(
+      and(eq(bills.id, billId), sql`${bills.nationEffectsAppliedAt} is null`),
+    );
+  return true;
+}
+
+export async function updateNationHeadlines(tx: Transaction, nationId: number) {
   const values = await tx
     .select()
     .from(nationStatValues)
-    .where(eq(nationStatValues.nationId, nation.id));
+    .where(eq(nationStatValues.nationId, nationId));
   const headlines = calculateHeadlineIndices(
     STAT_DEFINITIONS,
     new Map(values.map((row) => [row.statKey, row.value])),
@@ -143,12 +154,5 @@ export async function applyPassedBillEffects(tx: Transaction, billId: number) {
       politicalFreedoms: headlines.political_freedoms,
       updatedAt: new Date(),
     })
-    .where(eq(nations.id, nation.id));
-  await tx
-    .update(bills)
-    .set({ nationEffectsAppliedAt: new Date() })
-    .where(
-      and(eq(bills.id, billId), sql`${bills.nationEffectsAppliedAt} is null`),
-    );
-  return true;
+    .where(eq(nations.id, nationId));
 }

@@ -41,8 +41,8 @@ export function invalidateAfterBillExpiry(invalidate: () => void) {
   }
 }
 
-function formatRemaining(milliseconds: number) {
-  if (milliseconds <= 0) return "Advancing now";
+function formatRemaining(milliseconds: number, expiredLabel: string) {
+  if (milliseconds <= 0) return expiredLabel;
   const totalSeconds = Math.floor(milliseconds / 1000);
   const days = Math.floor(totalSeconds / 86_400);
   const hours = Math.floor((totalSeconds % 86_400) / 3_600);
@@ -57,9 +57,11 @@ function formatRemaining(milliseconds: number) {
 export function BillStageCountdown({
   target,
   onExpire,
+  expiredLabel = "Advancing now",
 }: {
   target: Date | string | null | undefined;
   onExpire?: () => void;
+  expiredLabel?: string;
 }) {
   const [remaining, setRemaining] = useState<number | null>(null);
   const expire = useEffectEvent(() => {
@@ -92,7 +94,9 @@ export function BillStageCountdown({
 
   return (
     <DeadlineTooltip target={target}>
-      <span className="font-mono tabular-nums" aria-live="off">{formatRemaining(remaining)}</span>
+      <span className="font-mono tabular-nums" aria-live="off">
+        {formatRemaining(remaining, expiredLabel)}
+      </span>
     </DeadlineTooltip>
   );
 }

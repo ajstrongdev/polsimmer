@@ -7,6 +7,7 @@ import {
   Landmark,
   MessageSquareText,
   ScrollText,
+  FileSignature,
   UserRound,
   UsersRound,
   Vote,
@@ -17,10 +18,23 @@ import {
 export const navigationItems = [
   { label: "Dashboard", to: "/dashboard", icon: Home },
   { label: "Bills & voting", to: "/dashboard/bills", icon: ScrollText },
+  {
+    label: "Executive orders",
+    to: "/dashboard/executive-orders",
+    icon: FileSignature,
+  },
   { label: "Elections", to: "/dashboard/elections", icon: Vote },
   { label: "Parties", to: "/dashboard/parties", icon: UsersRound },
-  { label: "Presidential primaries", to: "/dashboard/parties/primaries", icon: Landmark },
-  { label: instance.branding.socialName, to: "/dashboard/social", icon: MessageSquareText },
+  {
+    label: "Presidential primaries",
+    to: "/dashboard/parties/primaries",
+    icon: Landmark,
+  },
+  {
+    label: instance.branding.socialName,
+    to: "/dashboard/social",
+    icon: MessageSquareText,
+  },
   { label: "Players", to: "/dashboard/players", icon: UserRound },
   { label: "Nation", to: "/dashboard/nation", icon: Flag },
   { label: "Government history", to: "/dashboard/government", icon: History },
@@ -28,28 +42,42 @@ export const navigationItems = [
 ] as const;
 
 export const navigationGroups = [
-  { label: "Political activity", items: navigationItems.slice(0, 5) },
-  { label: "People & news", items: navigationItems.slice(5, 7).filter((item) => instance.features.social || item.to !== "/dashboard/social") },
-  { label: "Nation & reference", items: navigationItems.slice(7) },
+  { label: "Political activity", items: navigationItems.slice(0, 6) },
+  {
+    label: "People & news",
+    items: navigationItems
+      .slice(6, 8)
+      .filter(
+        (item) => instance.features.social || item.to !== "/dashboard/social",
+      ),
+  },
+  { label: "Nation & reference", items: navigationItems.slice(8) },
 ] as const;
 
 export const mobilePrimaryItems = [
   { ...navigationItems[0], shortLabel: "Home" },
   { ...navigationItems[1], shortLabel: "Bills" },
-  ...(instance.features.social ? [{ ...navigationItems[5], shortLabel: instance.branding.socialName }] : []),
+  ...(instance.features.social
+    ? [{ ...navigationItems[6], shortLabel: instance.branding.socialName }]
+    : []),
 ] as const;
 
 export const mobileDrawerGroups = navigationGroups
   .map((group) => ({
     label: group.label,
-    items: group.items.filter((item) =>
-      !mobilePrimaryItems.some((primary) => primary.to === item.to),
+    items: group.items.filter(
+      (item) => !mobilePrimaryItems.some((primary) => primary.to === item.to),
     ),
   }))
   .filter((group) => group.items.length > 0);
 
 export function isActiveDestination(pathname: string, to: string) {
   if (to === "/dashboard") return pathname === to || pathname === `${to}/`;
-  return (pathname === to || pathname.startsWith(`${to}/`)) &&
-    !(to === "/dashboard/parties" && pathname.startsWith("/dashboard/parties/primaries"));
+  return (
+    (pathname === to || pathname.startsWith(`${to}/`)) &&
+    !(
+      to === "/dashboard/parties" &&
+      pathname.startsWith("/dashboard/parties/primaries")
+    )
+  );
 }

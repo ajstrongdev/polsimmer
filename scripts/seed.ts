@@ -1,4 +1,6 @@
 import { loadEnvFile } from "node:process";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import pg from "pg";
 import { avatarForUsername, renderAvatar } from "../src/lib/avatar";
 import {
@@ -12,6 +14,15 @@ import {
 import { seedAjAvatar } from "./seed-aj-avatar";
 
 loadEnvFile();
+if (
+  process.env.VITE_INSTANCE_CONFIG &&
+  !process.env.VITE_INSTANCE_CONFIG.trimStart().startsWith("{")
+) {
+  process.env.VITE_INSTANCE_CONFIG = readFileSync(
+    resolve(process.env.VITE_INSTANCE_CONFIG),
+    "utf8",
+  );
+}
 
 const { instance } = await import("../src/lib/instance-config");
 
@@ -19,7 +30,8 @@ if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is required");
 }
 if (
-  process.env.NODE_ENV === "production" &&
+  (process.env.NODE_ENV === "production" ||
+    process.env.DEPLOYED_ENV === "production") &&
   process.env.SEED_ALLOW_PRODUCTION !== "true"
 ) {
   throw new Error(

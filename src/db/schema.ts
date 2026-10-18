@@ -420,6 +420,68 @@ export const nationPolicyValues = pgTable(
   (table) => [primaryKey({ columns: [table.nationId, table.policyKey] })],
 );
 
+export const executiveOrders = pgTable("executive_orders", {
+  id: serial("id").primaryKey(),
+  presidentId: integer("president_id")
+    .notNull()
+    .references(() => users.id),
+  title: varchar("title", { length: 160 }).notNull(),
+  description: text("description").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  committeeEndsAt: timestamp("committee_ends_at").notNull(),
+  enactedAt: timestamp("enacted_at"),
+  cancelledAt: timestamp("cancelled_at"),
+});
+
+export const executiveOrderEffects = pgTable(
+  "executive_order_effects",
+  {
+    orderId: integer("order_id")
+      .notNull()
+      .references(() => executiveOrders.id, { onDelete: "cascade" }),
+    statKey: varchar("stat_key", { length: 100 })
+      .notNull()
+      .references(() => nationStatDefinitions.key),
+    effect: doublePrecision("effect").notNull(),
+    assessedEffect: doublePrecision("assessed_effect"),
+    appliedChange: doublePrecision("applied_change").notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.orderId, table.statKey] })],
+);
+
+export const executiveOrderPolicyEffects = pgTable(
+  "executive_order_policy_effects",
+  {
+    orderId: integer("order_id")
+      .primaryKey()
+      .references(() => executiveOrders.id, { onDelete: "cascade" }),
+    policyKey: varchar("policy_key", { length: 100 })
+      .notNull()
+      .references(() => nationPolicyDefinitions.key),
+    previousValue: jsonb("previous_value")
+      .$type<boolean | number | string>()
+      .notNull(),
+    newValue: jsonb("new_value").$type<boolean | number | string>().notNull(),
+  },
+);
+
+export const executiveOrderAssessments = pgTable(
+  "executive_order_assessments",
+  {
+    orderId: integer("order_id")
+      .notNull()
+      .references(() => executiveOrders.id, { onDelete: "cascade" }),
+    senatorId: integer("senator_id")
+      .notNull()
+      .references(() => users.id),
+    effects: jsonb("effects")
+      .$type<Array<{ statKey: string; effect: number }>>()
+      .notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.orderId, table.senatorId] })],
+);
+
 export const committeeAssessments = pgTable(
   "committee_assessments",
   {
@@ -512,9 +574,10 @@ export const nationChanges = pgTable(
     nationId: integer("nation_id")
       .notNull()
       .references(() => nations.id, { onDelete: "cascade" }),
-    billId: integer("bill_id")
-      .notNull()
-      .references(() => bills.id),
+    billId: integer("bill_id").references(() => bills.id),
+    executiveOrderId: integer("executive_order_id").references(
+      () => executiveOrders.id,
+    ),
     kind: varchar("kind", { length: 20 }).notNull(),
     key: varchar("key", { length: 100 }).notNull(),
     previousValue: jsonb("previous_value")
@@ -1333,9 +1396,15 @@ export const socialFollows = pgTable(
       .notNull(),
   },
   (table) => [
-    primaryKey({ name: "social_follows_follower_followed_pk", columns: [table.followerId, table.followedId] }),
+    primaryKey({
+      name: "social_follows_follower_followed_pk",
+      columns: [table.followerId, table.followedId],
+    }),
     index("social_follows_followed_idx").on(table.followedId),
-    check("social_follows_no_self", sql`${table.followerId} <> ${table.followedId}`),
+    check(
+      "social_follows_no_self",
+      sql`${table.followerId} <> ${table.followedId}`,
+    ),
   ],
 );
 

@@ -3,6 +3,7 @@ import { asc, desc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import {
   bills,
+  executiveOrders,
   nationChanges,
   nationPolicyDefinitions,
   nationPolicyValues,
@@ -55,10 +56,16 @@ export const getNationOverview = createServerFn().handler(async () => {
         newValue: nationChanges.newValue,
         createdAt: nationChanges.createdAt,
         billId: bills.id,
+        executiveOrderId: nationChanges.executiveOrderId,
         billTitle: bills.title,
+        orderTitle: executiveOrders.title,
       })
       .from(nationChanges)
-      .innerJoin(bills, eq(nationChanges.billId, bills.id))
+      .leftJoin(bills, eq(nationChanges.billId, bills.id))
+      .leftJoin(
+        executiveOrders,
+        eq(nationChanges.executiveOrderId, executiveOrders.id),
+      )
       .where(eq(nationChanges.nationId, nation.id))
       .orderBy(desc(nationChanges.createdAt))
       .limit(12),
@@ -66,7 +73,9 @@ export const getNationOverview = createServerFn().handler(async () => {
       .select({
         id: nationChanges.id,
         billId: nationChanges.billId,
+        executiveOrderId: nationChanges.executiveOrderId,
         billTitle: bills.title,
+        orderTitle: executiveOrders.title,
         kind: nationChanges.kind,
         key: nationChanges.key,
         previousValue: nationChanges.previousValue,
@@ -74,7 +83,11 @@ export const getNationOverview = createServerFn().handler(async () => {
         createdAt: nationChanges.createdAt,
       })
       .from(nationChanges)
-      .innerJoin(bills, eq(nationChanges.billId, bills.id))
+      .leftJoin(bills, eq(nationChanges.billId, bills.id))
+      .leftJoin(
+        executiveOrders,
+        eq(nationChanges.executiveOrderId, executiveOrders.id),
+      )
       .where(eq(nationChanges.nationId, nation.id))
       .orderBy(asc(nationChanges.createdAt), asc(nationChanges.id)),
   ]);
@@ -88,9 +101,15 @@ export const getNationOverview = createServerFn().handler(async () => {
       STAT_DEFINITIONS,
       new Map(stats.map((stat) => [stat.key, stat.value])),
       allChanges
-        .filter((change) => change.kind === "stat")
+        .filter(
+          (change) =>
+            change.kind === "stat" || change.kind === "stat_cancellation",
+        )
         .map((change) => ({
           ...change,
+          billTitle:
+            change.billTitle ??
+            `${change.kind === "stat_cancellation" ? "Executive order cancellation" : "Executive order"}: ${change.orderTitle}`,
           previousValue: change.previousValue as number,
           newValue: change.newValue as number,
         })),
@@ -101,6 +120,9 @@ export const getNationOverview = createServerFn().handler(async () => {
     })),
     recentChanges: recentChanges.map((change) => ({
       ...change,
+      billTitle:
+        change.billTitle ??
+        `${change.kind.endsWith("_cancellation") ? "Executive order cancellation" : "Executive order"}: ${change.orderTitle}`,
       name: names.get(change.key) ?? change.key,
     })),
   };

@@ -470,6 +470,41 @@
       "when": 1790611200007,
       "tag": "0066_social_quote_posts",
       "breakpoints": true
+    },
+    {
+      "idx": 67,
+      "version": "7",
+      "when": 1790611200008,
+      "tag": "0067_executive_orders",
+      "breakpoints": true
+    },
+    {
+      "idx": 68,
+      "version": "7",
+      "when": 1790611200009,
+      "tag": "0068_executive_order_effects",
+      "breakpoints": true
+    },
+    {
+      "idx": 69,
+      "version": "7",
+      "when": 1790611200010,
+      "tag": "0069_executive_order_policy",
+      "breakpoints": true
+    },
+    {
+      "idx": 70,
+      "version": "7",
+      "when": 1790611200011,
+      "tag": "0070_executive_order_assessments",
+      "breakpoints": true
+    },
+    {
+      "idx": 71,
+      "version": "7",
+      "when": 1790611200012,
+      "tag": "0071_executive_order_committee",
+      "breakpoints": true
     }
   ]
 }

@@ -16,6 +16,7 @@ import { getAdminAuth } from "@/lib/firebase-admin";
 import { authorizeCronRequest } from "@/lib/server/scheduler/cron-auth";
 import { lockCommitteeOutcome } from "@/lib/server/bills/committee";
 import { applyPassedBillEffects } from "@/lib/server/bills/bill-effects";
+import { settleDueExecutiveOrders } from "@/lib/server/nation/executive-orders";
 import { recordIndicatedVotes } from "@/lib/server/bills/vote-indications";
 import {
   fillBillStageQueues,
@@ -230,6 +231,7 @@ export const Route = createFileRoute("/api/bill-advance")({
             for (const bill of admitted)
               if (bill.stage !== "Committee")
                 await recordIndicatedVotes(tx, bill.id, bill.stage);
+            await settleDueExecutiveOrders(tx, now);
           });
 
           try {
